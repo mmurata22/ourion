@@ -53,7 +53,7 @@ function RecyclingInstructions() {
     <div style={{ 
       minHeight: "100vh",
       background: "#F5F5F0",
-      fontFamily: "system-ui, -apple-system, sans-serif"
+      fontFamily: "'Inria Sans', sans-serif"
     }}>
       {/* Status Header */}
       <div style={{
@@ -95,13 +95,14 @@ function RecyclingInstructions() {
       }}>
         {/* Steps Section */}
         {instructions.steps.map((step, index) => (
-          <div key={index} style={{ marginBottom: 40 }}>
+          <div key={index} style={{ marginBottom: 40, padding: "0 20px" }}>
             <h3 style={{
               fontSize: 14,
               color: "#6B9E3E",
               marginBottom: 12,
               fontWeight: 600,
-              letterSpacing: "0.5px"
+              letterSpacing: "0.5px",
+              textAlign: "center"
             }}>
               {step.title}
             </h3>
@@ -109,10 +110,11 @@ function RecyclingInstructions() {
             {/* Placeholder for image */}
             <div style={{
               width: "100%",
-              height: 200,
+              maxWidth: 400,
+              margin: "0 auto 12px",
+              height: 150,
               background: "#E8E8E0",
               borderRadius: 8,
-              marginBottom: 12,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -125,7 +127,8 @@ function RecyclingInstructions() {
               fontSize: 14,
               color: "#666",
               lineHeight: 1.6,
-              margin: 0
+              margin: 0,
+              textAlign: "center"
             }}>
               {step.description}
             </p>
@@ -206,8 +209,8 @@ function RecyclingInstructions() {
 
       {/* Footer */}
       <footer style={{
-        background: status.color,
-        color: status.textColor,
+        background: "#38761D",
+        color: "#FFFFFF",
         padding: "40px 20px",
         textAlign: "center"
       }}>

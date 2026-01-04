@@ -3,7 +3,7 @@ export const statusConfig = {
     icon: "✓",
     title: "Yes",
     subtitle: "This product is recyclable",
-    color: "#6B9E3E", // Green
+    color: "#6AA84F", // Green
     textColor: "#FFFFFF"
   },
   maybe: {
