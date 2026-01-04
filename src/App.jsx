@@ -1,6 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import ScrollingIcons from './components/ScrollingIcons';
+import './App.css';
+
 import Home from "./pages/Home";
 import PaperCardboard from "./pages/PaperCardboard";
 import Plastics from "./pages/Plastics";
@@ -19,6 +22,8 @@ import Miscellaneous from "./pages/Miscellaneous";
 function App() {
   return (
     <Router>
+      <ScrollingIcons />
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/paper-cardboard" element={<PaperCardboard />} />

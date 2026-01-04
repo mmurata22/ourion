@@ -1,0 +1,70 @@
+.scrolling-icon-header {
+    width: 100%;
+    height: 85vh; 
+    overflow: hidden; 
+    position: relative; 
+    background: #1a1a1a; 
+}
+
+.scrolling-icon-tracks {
+    display: flex;
+    width: 100%; 
+    height: 100%; 
+    position: absolute; 
+    top: 0;
+    left: 0;
+}
+
+.icon-track {
+    min-width: 100px;
+
+    display: flex; 
+    flex-direction: column;
+    height: 200%; 
+    
+    white-space: nowrap; 
+    position: relative; 
+    
+    padding: 10px 0;
+    font-size: 30px; 
+}
+
+.icon {
+    flex-shrink: 0; 
+    margin: 10px 0; 
+    text-align: center; 
+    opacity: 0.6;
+    animation: opacity-change 2s ease-in-out infinite alternate;
+}
+
+
+.icon-track--up { 
+    animation: scrollUp 20s linear infinite; 
+}
+
+.icon-track--down { 
+    animation: scrollDown 20s linear infinite; 
+    transform: translateY(-50%); 
+}
+
+.icon-img {
+    width: 42px;
+    height: 42px;
+    margin: 0 15px;
+    object-fit: contain;
+}
+
+@keyframes scrollUp {
+    from { transform: translateY(0); }  
+    to { transform: translateY(-50%); } 
+}
+
+@keyframes scrollDown {
+    from { transform: translateY(-50%); }
+    to { transform: translateY(0); }
+}
+
+@keyframes opacity-change {
+    from { opacity: 0.6; }
+    to { opacity: 0.85; }
+}

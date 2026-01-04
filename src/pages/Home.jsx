@@ -66,9 +66,6 @@ function Home() {
       <button onClick={handleUpload} style={{ marginLeft: 10 }}>
         Upload Image
       </button>
-      <p style={{fontSize: "0.8rem", color: "gray", marginTop: "20px"}}>
-        Connecting to: {API_URL}
-      </p>
     </div>
   );
 }
