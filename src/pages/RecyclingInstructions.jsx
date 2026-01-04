@@ -52,7 +52,7 @@ function RecyclingInstructions() {
   return (
     <div style={{ 
       minHeight: "100vh",
-      background: "#F5F5F0",
+      background: "#F3F3E7",
       fontFamily: "'Inria Sans', sans-serif"
     }}>
       {/* Status Header */}
@@ -84,18 +84,18 @@ function RecyclingInstructions() {
         </p>
       </div>
 
-      {/* Main Content Card */}
+      {/* --- BOX 1: Main Content Card (Steps) --- */}
       <div style={{
         maxWidth: 600,
-        margin: "-40px auto 40px",
-        background: "white",
+        margin: "-40px auto 20px",
+        background: "#FFFFF7", // CHANGED: Background color
         borderRadius: 16,
         padding: 40,
-        boxShadow: "0 4px 20px rgba(0,0,0,0.1)"
+        boxShadow: "0 4px 20px rgba(56, 118, 29, 0.1)" // CHANGED: Green shadow @ 10%
       }}>
         {/* Steps Section */}
         {instructions.steps.map((step, index) => (
-          <div key={index} style={{ marginBottom: 40, padding: "0 20px" }}>
+          <div key={index} style={{ marginBottom: index === instructions.steps.length - 1 ? 0 : 40, padding: "0 20px" }}>
             <h3 style={{
               fontSize: 14,
               color: "#6B9E3E",
@@ -107,7 +107,6 @@ function RecyclingInstructions() {
               {step.title}
             </h3>
             
-            {/* Placeholder for image */}
             <div style={{
               width: "100%",
               maxWidth: 400,
@@ -134,77 +133,82 @@ function RecyclingInstructions() {
             </p>
           </div>
         ))}
+      </div>
 
-        {/* Material Info Section */}
+      {/* --- BOX 2: Material Info Section --- */}
+      <div style={{
+        maxWidth: 600,
+        margin: "0 auto 40px",
+        background: "#FFFFF7",
+        padding: "40px 20px",
+        textAlign: "center",
+        borderRadius: 0,
+        boxShadow: "none"
+      }}>
         <div style={{
-          marginTop: 60,
-          textAlign: "center"
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: 120,
+          height: 120,
+          border: `3px solid ${status.color}`,
+          borderRadius: "50%",
+          marginBottom: 20
         }}>
-          <div style={{
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: 120,
-            height: 120,
-            border: `3px solid ${status.color}`,
-            borderRadius: "50%",
-            marginBottom: 20
-          }}>
-            <div>
-              <div style={{
-                fontSize: 12,
-                color: "#666",
-                marginBottom: 5
-              }}>
-                Recycling Symbol
-              </div>
-              <div style={{
-                fontSize: 28,
-                fontWeight: 700,
-                color: status.color
-              }}>
-                {instructions.materialCode}
-              </div>
+          <div>
+            <div style={{
+              fontSize: 12,
+              color: "#666",
+              marginBottom: 5
+            }}>
+              Recycling Symbol
+            </div>
+            <div style={{
+              fontSize: 28,
+              fontWeight: 700,
+              color: status.color
+            }}>
+              {instructions.materialCode}
             </div>
           </div>
-
-          <h2 style={{
-            fontSize: 32,
-            color: "#333",
-            marginBottom: 20
-          }}>
-            {instructions.materialName}
-          </h2>
-
-          <p style={{
-            fontSize: 14,
-            color: "#666",
-            lineHeight: 1.8,
-            marginBottom: 20
-          }}>
-            {instructions.materialInfo.description}
-          </p>
-
-          <p style={{
-            fontSize: 14,
-            color: "#666",
-            lineHeight: 1.8,
-            marginBottom: 20
-          }}>
-            {instructions.materialInfo.recyclingNote}
-          </p>
-
-          {instructions.materialInfo.additionalInfo && (
-            <p style={{
-              fontSize: 14,
-              color: "#666",
-              lineHeight: 1.8,
-              fontStyle: "italic"
-            }}>
-              {instructions.materialInfo.additionalInfo}
-            </p>
-          )}
         </div>
+
+        <h2 style={{
+          fontSize: 32,
+          color: "#333",
+          marginBottom: 20
+        }}>
+          {instructions.materialName}
+        </h2>
+
+        <p style={{
+          fontSize: 14,
+          color: "#666",
+          lineHeight: 1.8,
+          marginBottom: 20
+        }}>
+          {instructions.materialInfo.description}
+        </p>
+
+        <p style={{
+          fontSize: 14,
+          color: "#666",
+          lineHeight: 1.8,
+          marginBottom: 20
+        }}>
+          {instructions.materialInfo.recyclingNote}
+        </p>
+
+        {instructions.materialInfo.additionalInfo && (
+          <p style={{
+            fontSize: 14,
+            color: "#666",
+            lineHeight: 1.8,
+            fontStyle: "italic"
+          }}>
+            {instructions.materialInfo.additionalInfo}
+          </p>
+        )}
       </div>
 
       {/* Footer */}
@@ -261,23 +265,6 @@ function RecyclingInstructions() {
               </ul>
             </div>
           </div>
-
-          <button
-            onClick={() => navigate("/")}
-            style={{
-              marginTop: 40,
-              padding: "14px 32px",
-              background: "white",
-              color: status.color,
-              border: "none",
-              borderRadius: 8,
-              cursor: "pointer",
-              fontSize: 16,
-              fontWeight: 600
-            }}
-          >
-            Scan Another Item
-          </button>
         </div>
       </footer>
     </div>
