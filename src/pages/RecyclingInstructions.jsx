@@ -111,15 +111,30 @@ function RecyclingInstructions() {
               width: "100%",
               maxWidth: 400,
               margin: "0 auto 12px",
-              height: 150,
+              // Remove height: 150 if you want the image to dictate height, 
+              // or keep it and use object-fit: contain
               background: "#E8E8E0",
               borderRadius: 8,
+              overflow: "hidden", // Ensures image stays within rounded corners
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
-              color: "#999"
+              justifyContent: "center"
             }}>
-              [Image: {step.title}]
+              {/* REPLACE THE PLACEHOLDER WITH THIS: */}
+              <img 
+                src={step.image} 
+                alt={step.title} 
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover", // Or "contain" depending on your AI image aspect ratios
+                  display: "block"
+                }}
+                onError={(e) => {
+                  e.target.style.display = 'none'; // Hide if image path is broken
+                  e.target.parentNode.innerText = 'Image not found';
+                }}
+              />
             </div>
 
             <p style={{

@@ -1,3 +1,12 @@
+// General
+import research from '../assets/images/Research_AI.png'
+
+// Aluminum
+import rinseAluminum from '../assets/images/Rinse_Aluminum_AI.png';
+import removeLabelAluminum from '../assets/images/RemoveLabel_Aluminum_AI.png'
+import doNotCrushAluminum from '../assets/images/DoNotCrush_Aluminum_AI.png'
+import noBaggingAluminum from '../assets/images/NoBagging_Aluminum_AI.png'
+
 export const statusConfig = {
   yes: {
     icon: "✓",
@@ -37,28 +46,23 @@ export const recyclingInstructions = {
     steps: [
       {
         title: "STEP 1: Clean your package",
-        description: "Rinse out any remaining contents.",
-        image: "/images/clean-package.jpg"
+        image: rinseAluminum
       },
       {
-        title: "STEP 2: Remove non-recyclable parts",
-        description: "Take off any labels or parts not part of the package (like films).",
-        image: "/images/remove-parts.jpg"
+        title: "STEP 2: Remove non-recyclable parts not part of the package (like films)",
+        image: removeLabelAluminum
       },
       {
-        title: "STEP 3: Rinse (not scrub) the package",
-        description: "A quick rinse is sufficient. No need to scrub.",
-        image: "/images/rinse-package.jpg"
+        title: "NOTE: Do NOT step/crush aluminum packages. This makes aluminum harder to sort!",
+        image: doNotCrushAluminum
       },
       {
-        title: "STEP 4: Crush and bag the package for recycling",
-        description: "Place directly into bins.",
-        image: "/images/bag-recycling.jpg"
+        title: "STEP 3: Do not bag the package for recycling. Place directly into bins",
+        image: noBaggingAluminum
       },
       {
-        title: "STEP 5: Check local recycling laws for proper instructions",
-        description: "Regulations vary by location.",
-        image: "/images/check-local.jpg"
+        title: "STEP 4: Check local recycling laws for pick-up instructions",
+        image: research
       }
     ],
     materialInfo: {
