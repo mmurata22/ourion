@@ -24,7 +24,7 @@ const Navbar = () => {
       {/* Centered Logo */}
       <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
         <img 
-          src="/logo.svg" 
+          src="/Ourion_Logo.png" 
           alt="Ourion Logo" 
           style={{ height: '40px', width: 'auto' }} 
         />
