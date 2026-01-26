@@ -1,15 +1,19 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ImageUpload from "./components/ImageUpload";
 import RecyclingInstructions from "./pages/RecyclingInstructions";
-// ... any other imports
+import Layout from './components/Layout';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route element={<Layout />}>
+        {/* These pages show the Navbar */}
         <Route path="/" element={<ImageUpload />} />
+
+        {/* This page also shows the Navbar, even though it's reached via a scan */}
         <Route path="/recycle/:category" element={<RecyclingInstructions />} />
-        {/* Remove all your old routes like /aluminum, /batteries, etc */}
+        </Route>
       </Routes>
     </BrowserRouter>
   );
