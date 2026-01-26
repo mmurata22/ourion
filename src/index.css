@@ -8,3 +8,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Faculty Glyphic', cursive;
 }
+
+.home-container {
+  background-color: #F3F3E7;
+}
