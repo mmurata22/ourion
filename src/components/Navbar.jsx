@@ -17,8 +17,8 @@ const Navbar = () => {
     }}>
       {/* Left Links */}
       <div style={{ display: 'flex', gap: '30px', justifyContent: 'flex-end', paddingRight: '40px' }}>
-        <Link to="/info" style={linkStyle}>Information</Link>
-        <Link to="/support" style={linkStyle}>Support Us</Link>
+        <Link to="/information" style={linkStyle}>Information</Link>
+        <Link to="/supportus" style={linkStyle}>Support Us</Link>
       </div>
 
       {/* Centered Logo */}
@@ -32,8 +32,8 @@ const Navbar = () => {
 
       {/* Right Links */}
       <div style={{ display: 'flex', gap: '30px', paddingLeft: '40px' }}>
-        <Link to="/how-it-works" style={linkStyle}>How it Works</Link>
-        <Link to="/about" style={linkStyle}>About Us</Link>
+        <Link to="/howitworks" style={linkStyle}>How it Works</Link>
+        <Link to="/aboutus" style={linkStyle}>About Us</Link>
       </div>
     </nav>
   );
