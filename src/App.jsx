@@ -1,15 +1,27 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ImageUpload from "./components/ImageUpload";
+import Home from './pages/Home';
+import Information from './pages/Information'
 import RecyclingInstructions from "./pages/RecyclingInstructions";
-// ... any other imports
+import SupportUs from "./pages/SupportUs";
+import HowItWorks from "./pages/HowItWorks";
+import AboutUs from "./pages/AboutUs";
+import Layout from './components/Layout';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<ImageUpload />} />
+        <Route element={<Layout />}>
+        {/* These pages show the Navbar */}
+        <Route path="/" element={<Home />} />
+        <Route path="/information" element={<Information />} />
+        <Route path="/supportus" element={<SupportUs />} />
+        <Route path="/howitworks" element={<HowItWorks />} />
+        <Route path="/aboutus" element={<AboutUs />} />
+
+        {/* This page also shows the Navbar, even though it's reached via a scan */}
         <Route path="/recycle/:category" element={<RecyclingInstructions />} />
-        {/* Remove all your old routes like /aluminum, /batteries, etc */}
+        </Route>
       </Routes>
     </BrowserRouter>
   );
