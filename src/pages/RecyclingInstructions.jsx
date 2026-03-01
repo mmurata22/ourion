@@ -1,4 +1,3 @@
-// src/pages/RecyclingInstructions.jsx
 import React from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { recyclingInstructions, statusConfig } from "../data/recyclingData";
