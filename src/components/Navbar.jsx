@@ -1,17 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
+import { supabase } from "../supabase/supabaseClient"; 
 
 const Navbar = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
+    // 1. Get initial user session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    // 2. Listen for auth changes (Login/Logout)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
     const handleResize = () => {
       setIsMobile(window.innerWidth < 992);
       if (window.innerWidth >= 992) setMenuOpen(false);
     };
+
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      subscription.unsubscribe();
+    };
   }, []);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -35,11 +51,18 @@ const Navbar = () => {
               <Link to="/supportus" onClick={toggleMenu} style={mobileLinkStyle}>Support Us</Link>
               <Link to="/howitworks" onClick={toggleMenu} style={mobileLinkStyle}>How it Works</Link>
               <Link to="/aboutus" onClick={toggleMenu} style={mobileLinkStyle}>About Us</Link>
+              <div style={{ padding: '10px 20px' }}>
+                {user ? (
+                  <Link to="/profile" onClick={toggleMenu} style={mobileAuthButtonStyle}>My Profile</Link>
+                ) : (
+                  <Link to="/auth" onClick={toggleMenu} style={mobileAuthButtonStyle}>Login / Sign Up</Link>
+                )}
+              </div>
             </div>
           )}
         </div>
       ) : (
-        /* --- DESKTOP LAYOUT (Your original code restored) --- */
+        /* --- DESKTOP LAYOUT --- */
         <div style={desktopGridStyle}>
           {/* Left Links */}
           <div style={{ display: 'flex', gap: '30px', justifyContent: 'flex-end', paddingRight: '40px' }}>
@@ -56,10 +79,16 @@ const Navbar = () => {
             />
           </Link>
 
-          {/* Right Links */}
-          <div style={{ display: 'flex', gap: '30px', paddingLeft: '40px' }}>
+          {/* Right Links + Dynamic Button */}
+          <div style={{ display: 'flex', gap: '30px', alignItems: 'center', paddingLeft: '40px' }}>
             <Link to="/howitworks" style={linkStyle}>How it Works</Link>
             <Link to="/aboutus" style={linkStyle}>About Us</Link>
+            
+            {user ? (
+              <Link to="/profile" style={desktopAuthButtonStyle}>Profile</Link>
+            ) : (
+              <Link to="/auth" style={desktopAuthButtonStyle}>Login</Link>
+            )}
           </div>
         </div>
       )}
@@ -68,7 +97,6 @@ const Navbar = () => {
 };
 
 // --- STYLES ---
-
 const navContainerStyle = {
   position: "sticky",
   top: 0,
@@ -95,7 +123,18 @@ const linkStyle = {
   fontWeight: '600'
 };
 
-/* Mobile Specific Styles */
+const desktopAuthButtonStyle = {
+  textDecoration: 'none',
+  backgroundColor: '#6B9E3E',
+  color: 'white',
+  fontSize: '12px',
+  fontWeight: '600',
+  padding: '8px 20px',
+  borderRadius: '20px',
+  transition: 'all 0.3s ease',
+  boxShadow: '0 2px 8px rgba(107, 158, 62, 0.2)'
+};
+
 const mobileWrapperStyle = {
   display: 'flex',
   justifyContent: 'space-between',
@@ -131,6 +170,19 @@ const mobileLinkStyle = {
   fontWeight: '600',
   padding: '15px 0',
   textAlign: 'center'
+};
+
+const mobileAuthButtonStyle = {
+  display: 'block',
+  textDecoration: 'none',
+  backgroundColor: '#6B9E3E',
+  color: 'white',
+  fontSize: '16px',
+  fontWeight: '600',
+  padding: '15px 0',
+  textAlign: 'center',
+  borderRadius: '12px',
+  marginTop: '10px'
 };
 
 export default Navbar;

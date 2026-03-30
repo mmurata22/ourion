@@ -63,7 +63,7 @@ const TermsOfService = () => {
         <section style={{ ...sectionStyle, borderBottom: 'none' }}>
           <h2 style={subTitleStyle}>6. Contact</h2>
           <p style={textStyle}>
-            For questions regarding these terms, please contact <strong>hello@ourion.eco</strong>.
+            For questions regarding these terms, please contact <strong>hello@ourion.app</strong>.
           </p>
         </section>
       </div>

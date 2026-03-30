@@ -23,8 +23,8 @@ const Footer = () => {
               playing a key role in protecting our planet.
             </p>
             <p style={{ fontSize: 14, marginTop: 15 }}>
-              <a href="mailto:hello@ourion.eco" style={{ color: 'white', textDecoration: 'none' }}>
-                📧 hello@ourion.eco
+              <a href="mailto:hello@ourion.app" style={{ color: 'white', textDecoration: 'none' }}>
+                📧 hello@ourion.app
               </a>
             </p>
           </div>

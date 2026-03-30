@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as tf from '@tensorflow/tfjs';
 
-// Asset Imports (keep as is)
+// Asset Imports
 import EyeIcon from '../assets/icons/Eye_Vector.png';
 import DocumentIcon from '../assets/icons/Document_Vector.png';
 import PlantIcon from '../assets/icons/Plant_Vector.png';
@@ -23,13 +23,16 @@ const Home = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // AI Model Logic (keep as is)
+  // AI Model Logic
   useEffect(() => {
     const loadOurionModel = async () => {
       try {
+        // Ensure this path matches your public folder structure
         const loadedModel = await tf.loadGraphModel('/models/yolov8n_web_model/model.json');
         setModel(loadedModel);
-      } catch (err) { console.error(err); }
+      } catch (err) {
+        console.error("Model failed to load:", err);
+      }
     };
     loadOurionModel();
   }, []);
@@ -43,25 +46,64 @@ const Home = () => {
   const handleUpload = async (file) => {
     if (!model) return;
     setLoading(true);
+
     try {
       const img = document.createElement('img');
-      img.src = URL.createObjectURL(file);
-      await new Promise(resolve => img.onload = resolve);
-      const tensor = tf.tidy(() => tf.browser.fromPixels(img).resizeNearestNeighbor([640, 640]).toFloat().div(255.0).expandDims(0));
-      const predictions = await model.executeAsync(tensor);
-      const outputData = await predictions.data();
-      let localGuess = "unknown";
-      if (outputData.reduce((a, b) => Math.max(a, b), 0) > 0.6) { localGuess = "bottle"; }
+      const imageUrl = URL.createObjectURL(file);
+      img.src = imageUrl;
+      await new Promise((resolve) => (img.onload = resolve));
+
+      // 1. Run Inference
+      // We perform the tensor operations inside tidy, but get the data out first
+      const outputData = tf.tidy(() => {
+        const tensor = tf.browser
+          .fromPixels(img)
+          .resizeNearestNeighbor([640, 640])
+          .toFloat()
+          .div(255.0)
+          .expandDims(0);
+
+        const predictions = model.execute(tensor);
+        // dataSync returns a TypedArray (Float32Array)
+        return predictions.dataSync(); 
+      });
+
+      // 2. Determine the Guess
+      // Instead of Math.max(...outputData), use a loop or reduce for large arrays
+      let maxConfidence = 0;
+      for (let i = 0; i < outputData.length; i++) {
+        if (outputData[i] > maxConfidence) {
+          maxConfidence = outputData[i];
+        }
+      }
+
+      let localGuess = maxConfidence > 0.6 ? "bottle" : "unknown";
+
+      // 3. Send to Backend
       const formData = new FormData();
       formData.append("image", file);
-      formData.append("local_cv_guess", localGuess);
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/process-image`, { method: "POST", body: formData });
+      formData.append("local_cv_guess", localGuess); 
+
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/process-image`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Server response was not ok");
+
       const resData = await res.json();
       const targetCategory = resData.category ? resData.category.toLowerCase() : 'unknown';
+
+      // 4. Cleanup and Navigate
+      URL.revokeObjectURL(imageUrl);
       navigate(`/recycle/${targetCategory}`, { state: { productData: resData } });
-      tf.dispose(tensor);
-      tf.dispose(predictions);
-    } catch (err) { alert(err.message); } finally { setLoading(false); }
+
+    } catch (err) {
+      console.error(err);
+      alert(`Error processing image: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -87,7 +129,6 @@ const Home = () => {
       {/* 2. WHAT WE DO SECTION */}
       <section style={sectionContainerStyle}>
         <h2 style={{...sectionHeadingStyle, fontSize: isMobile ? '36px' : '48px'}}>What We Do</h2>
-        {/* FORCE SPACING: Removed class, used explicit gaps and max-width */}
         <div style={{ 
           display: 'grid', 
           gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', 
