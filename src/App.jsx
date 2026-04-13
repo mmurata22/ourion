@@ -12,6 +12,11 @@ import AboutUs from "./pages/AboutUs";
 import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 
+import BeyondOurion from "./pages/BeyondOurion"; 
+import ContactPoliticians from "./pages/ContactPoliticians";
+import PoliticalClimates from "./pages/PoliticalClimates";
+import ScopeEmissions from "./pages/ScopeEmissions";
+
 function App() {
   return (
     <LocationProvider>
@@ -26,6 +31,11 @@ function App() {
             <Route path="/howitworks" element={<HowItWorks />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/recycle/:category" element={<RecyclingInstructions />} />
+            
+            <Route path="/beyond-ourion" element={<BeyondOurion />} />
+            <Route path="/scope-emissions" element={<ScopeEmissions />} />
+            <Route path="/political-climates" element={<PoliticalClimates />} />
+            <Route path="/contact-politicians" element={<ContactPoliticians />} />
             
             {/* Legal Routes */}
             <Route path="/terms" element={<TermsOfService />} />
