@@ -1,20 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 992);
       if (window.innerWidth >= 992) setMenuOpen(false);
     };
+
+    // Close dropdown when clicking outside
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    document.addEventListener('mousedown', handleClickOutside);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   return (
     <nav style={navContainerStyle}>
@@ -33,13 +49,17 @@ const Navbar = () => {
             <div style={mobileDropdownStyle}>
               <Link to="/information" onClick={toggleMenu} style={mobileLinkStyle}>Information</Link>
               <Link to="/supportus" onClick={toggleMenu} style={mobileLinkStyle}>Support Us</Link>
-              <Link to="/howitworks" onClick={toggleMenu} style={mobileLinkStyle}>How it Works</Link>
               <Link to="/aboutus" onClick={toggleMenu} style={mobileLinkStyle}>About Us</Link>
+              <hr style={{ border: '0.5px solid rgba(107, 158, 62, 0.2)', width: '80%', margin: '10px auto' }} />
+              <Link to="/beyond-ourion" onClick={toggleMenu} style={mobileLinkStyle}>Beyond Ourion</Link>
+              <Link to="/scope-emissions" onClick={toggleMenu} style={mobileLinkStyle}>Scope Emissions</Link>
+              <Link to="/political-climates" onClick={toggleMenu} style={mobileLinkStyle}>Political Climates</Link>
+              <Link to="/contact-politicians" onClick={toggleMenu} style={mobileLinkStyle}>Contact Politicians</Link>
             </div>
           )}
         </div>
       ) : (
-        /* --- DESKTOP LAYOUT (Your original code restored) --- */
+        /* --- DESKTOP LAYOUT --- */
         <div style={desktopGridStyle}>
           {/* Left Links */}
           <div style={{ display: 'flex', gap: '30px', justifyContent: 'flex-end', paddingRight: '40px' }}>
@@ -57,9 +77,27 @@ const Navbar = () => {
           </Link>
 
           {/* Right Links */}
-          <div style={{ display: 'flex', gap: '30px', paddingLeft: '40px' }}>
-            <Link to="/howitworks" style={linkStyle}>How it Works</Link>
+          <div style={{ display: 'flex', gap: '30px', paddingLeft: '40px', alignItems: 'center' }}>
             <Link to="/aboutus" style={linkStyle}>About Us</Link>
+            
+            {/* Dropdown Container */}
+            <div style={{ position: 'relative' }} ref={dropdownRef}>
+              <button 
+                onClick={toggleDropdown} 
+                style={{ ...linkStyle, background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: '4px' }}
+              >
+                Beyond Ourion {dropdownOpen ? '▴' : '▾'}
+              </button>
+
+              {dropdownOpen && (
+                <div style={desktopDropdownMenuStyle}>
+                  <Link to="/beyond-ourion" style={dropdownLinkStyle} onClick={() => setDropdownOpen(false)}>Beyond Ourion</Link>
+                  <Link to="/scope-emissions" style={dropdownLinkStyle} onClick={() => setDropdownOpen(false)}>Understanding Scope Emissions</Link>
+                  <Link to="/political-climates" style={dropdownLinkStyle} onClick={() => setDropdownOpen(false)}>Action in Political Climates</Link>
+                  <Link to="/contact-politicians" style={dropdownLinkStyle} onClick={() => setDropdownOpen(false)}>Contact Your Local Politicians</Link>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -93,6 +131,31 @@ const linkStyle = {
   color: '#6B9E3E',
   fontSize: '13px',
   fontWeight: '600'
+};
+
+const desktopDropdownMenuStyle = {
+  position: 'absolute',
+  top: 'calc(100% + 15px)',
+  right: 0,
+  backgroundColor: '#F3F3E7',
+  minWidth: '240px',
+  boxShadow: '0 8px 16px rgba(0,0,0,0.1)',
+  borderRadius: '4px',
+  display: 'flex',
+  flexDirection: 'column',
+  padding: '10px 0',
+  border: '1px solid rgba(107, 158, 62, 0.1)'
+};
+
+const dropdownLinkStyle = {
+  textDecoration: 'none',
+  color: '#6B9E3E',
+  fontSize: '12px',
+  fontWeight: '500',
+  padding: '10px 20px',
+  transition: 'background-color 0.2s',
+  display: 'block',
+  whiteSpace: 'nowrap'
 };
 
 /* Mobile Specific Styles */
@@ -129,7 +192,7 @@ const mobileLinkStyle = {
   color: '#6B9E3E',
   fontSize: '18px',
   fontWeight: '600',
-  padding: '15px 0',
+  padding: '12px 0',
   textAlign: 'center'
 };
 
